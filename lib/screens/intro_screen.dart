@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_fluttter/core/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../core/cache_helper.dart';
 import '../providers/theme_provider.dart';
-import 'introduction_screen.dart';
+import 'OnboardingScreen.dart';
 
 class IntroScreen extends StatelessWidget {
   static const String routeName = "IntroScreen";
@@ -27,17 +28,15 @@ class IntroScreen extends StatelessWidget {
           spacing: 28,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            provider.themeMode == ThemeMode.light
-                ? Image.asset(
-              "assets/images/being-creative.withe.png",
-              width: double.infinity,
-              fit: BoxFit.cover,
-            )
-                : Image.asset(
-              "assets/images/being-creative.black.png",
+
+                 Image.asset(
+                  context.brightness()== ThemeMode.light
+                      ? "assets/images/being-creative.withe.png"
+                       : "assets/images/being-creative.black.png",
               width: double.infinity,
               fit: BoxFit.cover,
             ),
+
             Text(
               "onboardingTitle".tr(),
               style: Theme.of(context).textTheme.bodyLarge,
@@ -47,7 +46,6 @@ class IntroScreen extends StatelessWidget {
               style: Theme.of(context).textTheme.displayMedium,
             ),
 
-            // ---------------- LANGUAGE TOGGLE ----------------
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -123,7 +121,7 @@ class IntroScreen extends StatelessWidget {
               ],
             ),
 
-            // ---------------- THEME TOGGLE ----------------
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -140,7 +138,7 @@ class IntroScreen extends StatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // Light Mode (Sun)
+
                       InkWell(
                         onTap: () {
                           provider.changeTheme(ThemeMode.light);
@@ -165,7 +163,7 @@ class IntroScreen extends StatelessWidget {
                         ),
                       ),
 
-                      // Dark Mode (Moon)
+
                       InkWell(
                         onTap: () {
                           provider.changeTheme(ThemeMode.dark);
@@ -207,9 +205,11 @@ class IntroScreen extends StatelessWidget {
                 onPressed: () {
 
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Introductionscreens()),
+                  Navigator.pushReplacementNamed(
+                      context,
+                      /* CacheHelper.getBool("intro") == true
+            ?*/ Introductionscreens.routeName
+                    /*: Auth.routeName,*/
                   );
 
                 },

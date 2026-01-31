@@ -5,7 +5,7 @@ class MyThemeData {
   static ThemeData lightTheme = ThemeData(
     colorScheme: ColorScheme(
       brightness: Brightness.light,
-      primary: Colors.blue,
+      primary: Color(0xFF0E3A99),
       onPrimary: Color(0xFF7B7B7B),
       secondary: Colors.black,
       onSecondary: Colors.white,
@@ -18,7 +18,7 @@ class MyThemeData {
       bodyLarge: GoogleFonts.inter(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: Colors.blue,
+        color: Color(0xFF0E3A99),
       ),
       displayLarge: GoogleFonts.inter(
         fontSize: 20,
@@ -28,7 +28,7 @@ class MyThemeData {
       displaySmall: GoogleFonts.inter(
         fontSize: 20,
         fontWeight: FontWeight.w500,
-        color: Colors.blue,
+        color: Color(0xFF0E3A99),
       ),
       displayMedium: GoogleFonts.inter(
         fontSize: 16,
@@ -44,8 +44,8 @@ class MyThemeData {
   );
   static ThemeData darkTheme = ThemeData(
     colorScheme: ColorScheme(
-      brightness: Brightness.light,
-      primary: Colors.blue,
+      brightness: Brightness.dark,
+      primary: Color(0xFF457AED),
       onPrimary: Color(0xFF7B7B7B),
       secondary: Colors.black,
       onSecondary: Colors.white,
@@ -58,7 +58,7 @@ class MyThemeData {
       bodyLarge: GoogleFonts.inter(
         fontSize: 20,
         fontWeight: FontWeight.bold,
-        color: Colors.blue,
+        color: Color(0xFF457AED),
       ),
       displayLarge: GoogleFonts.inter(
         fontSize: 20,
@@ -68,12 +68,12 @@ class MyThemeData {
       displaySmall: GoogleFonts.inter(
         fontSize: 20,
         fontWeight: FontWeight.w500,
-        color: Colors.blue,
+        color: Color(0xFF457AED),
       ),
       displayMedium: GoogleFonts.inter(
         fontSize: 16,
         fontWeight: FontWeight.w500,
-        color: Colors.black,
+        color: Colors.white,
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
