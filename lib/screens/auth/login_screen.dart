@@ -1,12 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_fluttter/core/extensions.dart';
+import 'package:evently_fluttter/core/firebase_functions.dart';
+import 'package:evently_fluttter/providers/auth_provider.dart';
 import 'package:evently_fluttter/screens/auth/register_screen.dart';
 import 'package:evently_fluttter/screens/auth/reset_password_screen.dart';
+import 'package:evently_fluttter/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 
-import '../../Home/home_screen.dart';
-import '../../core/extensions.dart';
-import '../../core/firebase_functions.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "Login";
@@ -27,6 +30,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    var authProvider = Provider.of<AuthProvider>(context);
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -37,10 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 60),
-                Image.asset("assets/images/evently_logo.png", height: 70),
+                Image.asset("assets/images/Evently.png", height: 70),
                 const SizedBox(height: 40),
                 Text(
-                  "Login to your account",
+                  "login".tr(),
                   style: GoogleFonts.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -59,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.grey,
                     ),
                     fillColor: Colors.white,
-                    prefixIcon: Image.asset("assets/images/email_ic.png"),
+                    prefixIcon: Image.asset("assets/images/sms (1).png"),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -77,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       color: Colors.grey,
                     ),
                     fillColor: Colors.white,
-                    prefixIcon: Image.asset("assets/images/lock_ic.png"),
+                    prefixIcon: Image.asset("assets/images/lock (1).png"),
                     suffixIcon: IconButton(
                       icon: Icon(
                         isPasswordVisible
@@ -114,10 +120,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     FirebaseFunctions.login(
                       emailController.text,
                       passwordController.text,
-                      onSuccess: () => Navigator.pushReplacementNamed(
-                        context,
-                        HomeScreen.routeName,
-                      ),
+                      onSuccess: () {
+                        authProvider.initUser();
+                        Navigator.pushReplacementNamed(
+                          context,
+                          HomeScreen.routeName,
+                        );
+                      },
                       onError: (message) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -141,8 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text(
-                    "Login",
+                  child:  Text(
+                    "login".tr(),
                     style: TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
@@ -180,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: () {},
-                  icon: Image.asset("assets/images/google.png", height: 24),
+                  icon: Image.asset("assets/images/googel.png", height: 24),
                   label: const Text("Login with Google"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,

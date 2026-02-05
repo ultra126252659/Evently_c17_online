@@ -1,12 +1,15 @@
-import 'package:evently_fluttter/Home/tabs/favorite_tab.dart';
-import 'package:evently_fluttter/Home/tabs/home_tab.dart';
-import 'package:evently_fluttter/Home/tabs/profile_tab.dart';
+import 'package:evently_fluttter/core/my_theme_data.dart';
+import 'package:evently_fluttter/providers/auth_provider.dart';
+import 'package:evently_fluttter/providers/home_provider.dart';
+import 'package:evently_fluttter/providers/theme_provider.dart';
+import 'package:evently_fluttter/screens/add_event/add_event_screen.dart';
+import 'package:evently_fluttter/screens/home/tabs/favorite_tab.dart';
+import 'package:evently_fluttter/screens/home/tabs/home_tab..dart';
+import 'package:evently_fluttter/screens/home/tabs/profile_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../core/my_theme_data.dart';
-import '../providers/home_provider..dart';
-import '../screens/addevent/add_event_screen.dart';
+
 
 
 class HomeScreen extends StatelessWidget {
@@ -16,16 +19,20 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var authProvider = Provider.of<AuthProvider>(context);
     return ChangeNotifierProvider(
       create: (context) => HomeProvider(),
       builder: (context, child) {
         var provider = Provider.of<HomeProvider>(context);
+        var themeProvider  = Provider.of<ThemeProvider>(context);
         return Scaffold(
           appBar: AppBar(
             actions: [
               ImageIcon(
-                AssetImage("assets/images/light.png"),
-                color: Colors.blue,
+                AssetImage("assets/images/sun.png"),
+                color:themeProvider.themeMode == ThemeMode.light
+                    ? Theme.of(context).colorScheme.onSecondary
+                    : Theme.of(context).colorScheme.primary,
               ),
               SizedBox(width: 8),
               Container(
@@ -48,7 +55,7 @@ class HomeScreen extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
               subtitle: Text(
-                "John Safwat",
+                authProvider.userModel?.name ?? "",
                 style: Theme.of(
                   context,
                 ).textTheme.displaySmall!.copyWith(color: Color(0xFF1c1c1c)),
@@ -64,20 +71,37 @@ class HomeScreen extends StatelessWidget {
             elevation: 0,
             backgroundColor: Theme.of(context).colorScheme.surface,
             items: [
+
               BottomNavigationBarItem(
                 backgroundColor: Theme.of(context).colorScheme.surface,
-                icon: ImageIcon(AssetImage("assets/images/home-2.png")),
+                icon: ImageIcon(AssetImage(
+                  provider.selectedIndex == 0
+
+                        ?"assets/images/home_select.png"
+                        : "assets/images/home.png",
+
+                )),
                 label: "Home",
               ),
               BottomNavigationBarItem(
                 backgroundColor: Theme.of(context).colorScheme.surface,
-                icon: ImageIcon(AssetImage("assets/images/heart.png")),
+                icon: ImageIcon(AssetImage(
+                    provider.selectedIndex == 1
+                    ?"assets/images/heart_select.png"
+                        :"assets/images/heart (1).png"
+
+                )),
                 label: "Favorite",
               ),
 
               BottomNavigationBarItem(
                 backgroundColor: Theme.of(context).colorScheme.surface,
-                icon: ImageIcon(AssetImage("assets/images/user.png")),
+                icon: ImageIcon(AssetImage(
+                    provider.selectedIndex == 2
+
+                        ?"assets/images/user_select.png"
+                :"assets/images/user (1).png"
+                )),
                 label: "Profile",
               ),
             ],

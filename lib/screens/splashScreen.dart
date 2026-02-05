@@ -1,12 +1,11 @@
+import 'package:evently_fluttter/providers/theme_provider.dart';
+import 'package:evently_fluttter/screens/intro_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-import '../core/cache_helper.dart';
-import '../providers/theme_provider.dart';
 
-import 'auth/login_screen.dart';
-import 'intro_screen.dart';
+
 
 class Splashscreen extends StatefulWidget {
   static const routeName="SplashScreen";
@@ -36,7 +35,7 @@ class _SplashscreenState extends State<Splashscreen> {
           const Spacer(),
           Center(
             child: Image.asset(
-              "assets/images/Blue White Minimal Modern Simple Bold Business Mag Logo 3 (1).png",
+              "assets/images/Blue White Minimal Modern Simple Bold Business Mag Logo.png",
               width: 200,
               fit: BoxFit.contain,
             ),
@@ -49,7 +48,7 @@ class _SplashscreenState extends State<Splashscreen> {
             padding: const EdgeInsets.only(bottom: 20.0),
             child: Column(
               children: [
-                Image.asset("assets/images/Logo.png",
+                Image.asset("assets/images/Logo (2).png",
                   width: 100,
                   fit: BoxFit.cover,
                 ),
@@ -58,7 +57,7 @@ class _SplashscreenState extends State<Splashscreen> {
                   'Supervised by Mohamed Nabil',
                   style: TextStyle(
                     fontSize: 16,
-                    color: Color(0xFF202020), // لون نص غامق
+                    color: Color(0xFF202020),
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -81,9 +80,7 @@ class _SplashscreenState extends State<Splashscreen> {
 
       Navigator.pushReplacementNamed(
         context,
-       CacheHelper.getBool("intro") == true
-            ? IntroScreen.routeName
-        : LoginScreen.routeName,
+             IntroScreen.routeName,
       );
     });
   }

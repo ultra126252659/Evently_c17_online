@@ -1,51 +1,60 @@
 import 'dart:async';
 
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evently_fluttter/core/firebase_functions.dart';
+import 'package:evently_fluttter/models/task_model.dart';
 import 'package:flutter/material.dart';
 
-import '../core/firebase_functions.dart';
-import '../model/task_model.dart';
 
-class HomeTabProvider extends ChangeNotifier {
+
+class HomePageProvider extends ChangeNotifier {
   List<String> categories = [
     "All",
+    "sport",
+    "birthday",
     "book_club",
+    "exhibition",
+    "holiday",
     "meeting",
     "eating",
-    "gaming",
-    "holiday",
-    "birthday",
-    "sport",
-    "exhibition",
     "workshop",
+    "gaming",
   ];
 
-  List<TaskModel> tasks = [];
-  bool isLoading = false;
-  String errorMessage = "";
+  List<TaskModel> taskss = [];
+
   int selectedCategoryIndex = 0;
 
-  StreamSubscription? streamSubscription;
+  StreamSubscription<QuerySnapshot<TaskModel>>? _tasksSubscription;
 
-  changeCategoryIndex(int index) {
+  changeCategory(int index) {
     selectedCategoryIndex = index;
-    // getTasks();
     getTasksStream();
     notifyListeners();
   }
 
-  @override
-  dispose() {
-    streamSubscription!.cancel();
-    super.dispose();
-  }
+  // getTasks() async {
+  //   QuerySnapshot<TaskModel> data;
+  //   if (selectedCategoryIndex != 0) {
+  //     data = await FirebaseFunctions.getTasks(
+  //       category: categories[selectedCategoryIndex],
+  //     );
+  //   } else {
+  //     data = await FirebaseFunctions.getTasks();
+  //   }
+  //
+  //   taskss = data.docs.map((e) => e.data()).toList();
+  //   notifyListeners();
+  // }
+
   getTasksStream() {
-    FirebaseFunctions.getTasksStream(
+    _tasksSubscription?.cancel();
+    _tasksSubscription = FirebaseFunctions.getTasksStream(
       category: selectedCategoryIndex == 0
           ? null
           : categories[selectedCategoryIndex],
     ).listen((event) {
-      tasks = event.docs.map((e) => e.data()).toList();
+      taskss = event.docs.map((e) => e.data()).toList();
       notifyListeners();
     });
   }
@@ -57,20 +66,9 @@ class HomeTabProvider extends ChangeNotifier {
     await FirebaseFunctions.deleteTask(task);
   }
 
-
-// getTasks() async {
-//   try {
-//     isLoading = true;
-//     var list = await FirebaseFunctions.getTasks(
-//       category: selectedCategoryIndex == 0
-//           ? null
-//           : categories[selectedCategoryIndex],
-//     );
-//     tasks = list.docs.map((e) => e.data()).toList();
-//   } catch (e) {
-//     errorMessage = e.toString();
-//   }
-//   isLoading = false;
-//   notifyListeners();
-// }
+  @override
+  void dispose() {
+    _tasksSubscription?.cancel();
+    super.dispose();
+  }
 }

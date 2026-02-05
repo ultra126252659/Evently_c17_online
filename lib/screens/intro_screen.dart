@@ -1,63 +1,58 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_fluttter/core/extensions.dart';
+import 'package:evently_fluttter/providers/theme_provider.dart';
+import 'package:evently_fluttter/screens/onbordingscreen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../core/cache_helper.dart';
-import '../providers/theme_provider.dart';
-import 'OnboardingScreen.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroScreen extends StatefulWidget {
   static const String routeName = "IntroScreen";
 
   const IntroScreen({super.key});
 
   @override
+  State<IntroScreen> createState() => _IntroScreenState();
+}
+
+class _IntroScreenState extends State<IntroScreen> {
+  @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ThemeProvider>(context);
-
-    Color activeColor = Color(0xFF1B3893);
+    // لتسهيل الوصول للون الأساسي
+    var primaryColor = context.theme().colorScheme.primary;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-            "assets/images/Blue White Minimal Modern Simple Bold Business Mag Logo 3 (1).png"),
-      ),
+      appBar: AppBar(title: Image.asset("assets/images/Evently.png")),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           spacing: 28,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
-                 Image.asset(
-                  context.brightness()== ThemeMode.light
-                      ? "assets/images/being-creative.withe.png"
-                       : "assets/images/being-creative.black.png",
+            Image.asset(
+              context.brightness() == Brightness.light
+                  ? "assets/images/being-creative.png"
+                  : "assets/images/being-creative .dark.png",
               width: double.infinity,
               fit: BoxFit.cover,
             ),
+            Text("onboardTitle".tr(), style: context.bodyLarge()),
+            Text("onboardText".tr(), style: context.displayMedium()),
 
-            Text(
-              "onboardingTitle".tr(),
-              style: Theme.of(context).textTheme.bodyLarge,
-            ),
-            Text(
-              "onboardingSubTitle".tr(),
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "language".tr(),
-                  style: Theme.of(context).textTheme.displaySmall,
+                  "lung".tr(),
+                  style: context.theme().textTheme.displaySmall,
                 ),
                 Container(
-                  padding: EdgeInsets.all(2), // tiny padding for the border effect
+                  padding: const EdgeInsets.all(2), // مسافة صغيرة داخل الإطار
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: activeColor, width: 1),
+                    border: Border.all(color: primaryColor, width: 2),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -69,47 +64,44 @@ class IntroScreen extends StatelessWidget {
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                           decoration: BoxDecoration(
                             color: context.locale == Locale("en", "US")
-                                ? activeColor
+                                ? primaryColor
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
                             "English",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            style: context.theme().textTheme.bodyMedium?.copyWith(
                               color: context.locale == Locale("en", "US")
-                                  ? Colors.white
-                                  : activeColor,
+                                  ? Theme.of(context).colorScheme.onSecondary
+                                  : Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
                       ),
 
-                      // Arabic Button
                       InkWell(
                         onTap: () {
                           context.setLocale(Locale("ar", "EG"));
                         },
                         borderRadius: BorderRadius.circular(30),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8, horizontal: 16),
+                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
                           decoration: BoxDecoration(
                             color: context.locale == Locale("ar", "EG")
-                                ? activeColor
-                                : Colors.transparent,
+                         ?   Theme.of(context).colorScheme.onSecondary
+                         : Theme.of(context).colorScheme.primary,
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Text(
                             "Arabic",
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            style: context.theme().textTheme.bodyMedium?.copyWith(
                               color: context.locale == Locale("ar", "EG")
-                                  ? Colors.white
-                                  : activeColor,
+                                  ? Theme.of(context).colorScheme.onSecondary
+                                  : Theme.of(context).colorScheme.primary,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -121,24 +113,23 @@ class IntroScreen extends StatelessWidget {
               ],
             ),
 
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "theme".tr(),
-                  style: Theme.of(context).textTheme.displaySmall,
-                ),
+                Text("theme".tr(), style: context.displaySmall()),
                 Container(
-                  padding: EdgeInsets.all(2),
+                  padding: const EdgeInsets.all(2),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: activeColor, width: 1),
+                    border: Border.all(
+                      color: primaryColor,
+                      width: 2,
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-
+                      // Light Mode (Sun)
                       InkWell(
                         onTap: () {
                           provider.changeTheme(ThemeMode.light);
@@ -149,21 +140,20 @@ class IntroScreen extends StatelessWidget {
                               vertical: 6, horizontal: 16),
                           decoration: BoxDecoration(
                             color: provider.themeMode == ThemeMode.light
-                                ? activeColor
+                                ? primaryColor
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: ImageIcon(
-                            AssetImage("assets/images/sun.png"),
+                            const AssetImage("assets/images/sun.png"),
                             size: 30,
                             color: provider.themeMode == ThemeMode.light
-                                ? Colors.white
-                                : activeColor,
+                                ? Theme.of(context).colorScheme.onSecondary
+                                : Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
-
-
+                      // Dark Mode (Moon)
                       InkWell(
                         onTap: () {
                           provider.changeTheme(ThemeMode.dark);
@@ -174,16 +164,16 @@ class IntroScreen extends StatelessWidget {
                               vertical: 6, horizontal: 16),
                           decoration: BoxDecoration(
                             color: provider.themeMode == ThemeMode.dark
-                                ? activeColor
+                                ? primaryColor
                                 : Colors.transparent,
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: ImageIcon(
-                            AssetImage("assets/images/moon.png"),
+                            const AssetImage("assets/images/moon.png"),
                             size: 30,
                             color: provider.themeMode == ThemeMode.dark
-                                ? Colors.white
-                                : activeColor,
+                                ? Theme.of(context).colorScheme.onSecondary
+                                :Theme.of(context).colorScheme.primary,
                           ),
                         ),
                       ),
@@ -203,23 +193,16 @@ class IntroScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-
-
                   Navigator.pushReplacementNamed(
-                      context,
-                      /* CacheHelper.getBool("intro") == true
-            ?*/ Introductionscreens.routeName
-                    /*: Auth.routeName,*/
+                    context,
+                    Onbordingscreen.routeName,
                   );
-
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Text(
-                    "letsStart".tr(),
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: Colors.white
-                    ),
+                    "letsGo".tr(),
+                    style: Theme.of(context).textTheme.displayLarge,
                   ),
                 ),
               ),
@@ -230,17 +213,3 @@ class IntroScreen extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,15 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_fluttter/core/cache_helper.dart';
+import 'package:evently_fluttter/providers/theme_provider.dart';
+import 'package:evently_fluttter/screens/auth/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
-import '../core/cache_helper.dart';
-import '../providers/theme_provider.dart';
 
-import 'auth/login_screen.dart';
-class Introductionscreens extends StatelessWidget {
+
+
+
+class Onbordingscreen extends StatelessWidget {
   static const String routeName = "Introductionscreen";
-  Introductionscreens({super.key});
+  Onbordingscreen({super.key});
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ThemeProvider>(context);
@@ -20,7 +23,7 @@ class Introductionscreens extends StatelessWidget {
       // الصفحة الأولى: Effortless Event Planning (صورة المكتب)
       PageViewModel(
         titleWidget: Text(
-          "Find Events That Inspire You", // أو الترجمة بتاعتك
+          "onboardTitle1".tr(),
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -28,14 +31,14 @@ class Introductionscreens extends StatelessWidget {
           ),
         ),
         bodyWidget: Text(
-          "Dive into a world of events crafted to fit your unique interests...",
+          "onboardText1".tr(),
           textAlign: TextAlign.center,
           style: TextStyle(color: provider.themeMode == ThemeMode.light ? Colors.black54 : Colors.grey),
         ),
         image: Image.asset(
           provider.themeMode == ThemeMode.light
               ? "assets/images/hot-trending.png"
-              : "assets/images/hot-trending (1).png",
+              : "assets/images/hot-trending .dark.png",
           height: 300, // تحجيم الصورة عشان متضربش
         ),
         decoration: const PageDecoration(
@@ -46,7 +49,7 @@ class Introductionscreens extends StatelessWidget {
       // الصفحة الثانية: Connect with Friends (صورة الـ Social)
       PageViewModel(
         titleWidget: Text(
-          "Effortless Event Planning",
+          "onboardTitle2".tr(),
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -54,14 +57,14 @@ class Introductionscreens extends StatelessWidget {
           ),
         ),
         bodyWidget: Text(
-          "Take the hassle out of organizing events with our all-in-one planning tools...",
+          "onboardText2".tr(),
           textAlign: TextAlign.center,
           style: TextStyle(color: provider.themeMode == ThemeMode.light ? Colors.black54 : Colors.grey),
         ),
         image: Image.asset(
           provider.themeMode == ThemeMode.light
-              ? "assets/images/manager-desk.png"
-              : "assets/images/being-creative (1).png",
+              ? "assets/images/being-creative2.png"
+              : "assets/images/being-creative2.dark.png",
           height: 300,
         ),
         decoration: const PageDecoration(
@@ -72,7 +75,7 @@ class Introductionscreens extends StatelessWidget {
       // الصفحة الثالثة: Personalize (فيها الشغل كله - اللغة والثيم)
       PageViewModel(
         titleWidget: Text(
-          "Personalize Your Experience",
+          "onboardTitle3".tr(),
           style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -83,7 +86,7 @@ class Introductionscreens extends StatelessWidget {
         bodyWidget: Column(
           children: [
             Text(
-              "Choose your preferred theme and language to get started...",
+              "onboardText3".tr(),
               textAlign: TextAlign.center,
               style: TextStyle(color: provider.themeMode == ThemeMode.light ? Colors.black54 : Colors.grey),
             ),
@@ -93,7 +96,7 @@ class Introductionscreens extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Language", style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.w500)),
+                Text("Language".tr(), style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.w500)),
                 // مثال بسيط لزرار التغيير (ممكن تستخدم Dropdown أو Toggle)
                 ToggleButtons(
                   isSelected: [context.locale.languageCode == 'en', context.locale.languageCode == 'ar'],
@@ -139,8 +142,8 @@ class Introductionscreens extends StatelessWidget {
         ),
         image: Image.asset(
           provider.themeMode == ThemeMode.light
-              ? "assets/images/being-creative.png"
-              : "assets/images/being-creative (2).png",
+              ? "assets/images/being-creative3.png"
+              : "assets/images/being-creative.dark3.png",
           height: 300,
         ),
         decoration: const PageDecoration(
@@ -155,6 +158,7 @@ class Introductionscreens extends StatelessWidget {
         child: IntroductionScreen(
           globalBackgroundColor: provider.themeMode == ThemeMode.light ? Colors.white : const Color(0xFF101127),
 
+
           // اللوجو ثابت فوق
           globalHeader: Align(
             alignment: Alignment.topCenter,
@@ -167,7 +171,7 @@ class Introductionscreens extends StatelessWidget {
 
           // --- تظبيط الزراير السفلية ---
           showSkipButton: true,
-          skip: Text("Skip", style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold)),
+          skip: Text("skipButton".tr(), style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold)),
 
           showNextButton: true,
           next: Icon(Icons.arrow_forward, color: primaryBlue),
@@ -190,17 +194,16 @@ class Introductionscreens extends StatelessWidget {
             ),
           ),
 
-          onSkip: () async {
-            await CacheHelper.saveBool(true);
+          onSkip: ()  {
+
             Navigator.pushReplacementNamed(context, LoginScreen.routeName);
           },
-          onDone: () async {
-            await CacheHelper.saveBool(true);
-            Navigator.pushReplacementNamed(
+          onDone: ()  {
+
+            Navigator.pushNamed(
                 context,
-                /* CacheHelper.getBool("intro") == true
-            ?*/ LoginScreen.routeName
-              /*: Auth.routeName,*/
+                LoginScreen.routeName
+
             );
           },
         ),
@@ -210,3 +213,4 @@ class Introductionscreens extends StatelessWidget {
   }
 
 }
+

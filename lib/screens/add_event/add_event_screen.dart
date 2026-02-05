@@ -1,5 +1,6 @@
 import 'package:evently_fluttter/core/firebase_functions.dart';
-import 'package:evently_fluttter/model/task_model.dart';
+import 'package:evently_fluttter/models/task_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AddEventScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
           onTap: () {
             Navigator.pop(context);
           },
-          child: Image.asset("assets/images/back_ic.png"),
+          child: Image.asset("assets/images/back.png"),
         ),
         title: Text("Add Event", style: Theme.of(context).textTheme.bodyLarge),
       ),
@@ -96,9 +97,8 @@ class _AddEventScreenState extends State<AddEventScreen> {
             Text("Title", style: Theme.of(context).textTheme.displayMedium),
             SizedBox(height: 8),
             TextFormField(
-              controller:titleController,
+              controller: titleController,
               decoration: InputDecoration(
-
                 hintText: "Enter Event Name",
                 hintStyle: Theme.of(context).textTheme.bodyMedium,
                 enabledBorder: OutlineInputBorder(
@@ -123,7 +123,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             SizedBox(height: 8),
             TextFormField(
               maxLines: 3,
-              controller:descriptionController ,
+              controller: descriptionController,
               decoration: InputDecoration(
                 hintText: "Enter Description",
                 hintStyle: Theme.of(context).textTheme.bodyMedium,
@@ -144,7 +144,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
             SizedBox(height: 24),
             Row(
               children: [
-                Image.asset("assets/images/calendar-add.png"),
+                Image.asset("assets/images/calendar.png"),
                 SizedBox(width: 8),
                 Text(
                   "Event Date",
@@ -167,15 +167,16 @@ class _AddEventScreenState extends State<AddEventScreen> {
             Container(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () async {
-                  TaskModel task=TaskModel(
-                      title: titleController.text,
-                      description:descriptionController.text,
-                      date: selectedDate.microsecondsSinceEpoch,
-                       category: categories[selectedCategoryIndex],
+                onPressed: () {
+                  TaskModel task = TaskModel(
+                    userId: FirebaseAuth.instance.currentUser!.uid,
+                    category: categories[selectedCategoryIndex],
+                    date: selectedDate.millisecondsSinceEpoch,
+                    description: descriptionController.text,
+                    title: titleController.text,
                   );
-                 await FirebaseFunctions.createTask(task);
-                 Navigator.pop(context);
+                  FirebaseFunctions.createTask(task);
+                  Navigator.of(context).pop();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,

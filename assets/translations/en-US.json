@@ -37,6 +37,7 @@
   "addDate": "Event Date",
   "addEventButton": "Add Event",
   "editEventButton": "Edit Event",
-   "logOut": "logOut"
+   "logOut": "logOut",
+    "darkmode": "darkmode"
 
 }

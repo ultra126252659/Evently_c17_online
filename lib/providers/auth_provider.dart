@@ -1,23 +1,23 @@
-
+import 'package:evently_fluttter/core/firebase_functions.dart';
+import 'package:evently_fluttter/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../core/firebase_functions.dart';
-import '../model/user_model.dart';
 
-class AuthProvider extends ChangeNotifier{
+
+class AuthProvider extends ChangeNotifier {
   User? firebaseUser;
   UserModel? userModel;
 
-  AuthProvider(){
+  AuthProvider() {
     firebaseUser = FirebaseAuth.instance.currentUser;
-    if(firebaseUser != null){
+    if (firebaseUser != null) {
       initUser();
     }
   }
-  initUser()async{
+
+  initUser() async {
     userModel = await FirebaseFunctions.readUser();
     notifyListeners();
-
   }
 }

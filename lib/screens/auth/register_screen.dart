@@ -1,8 +1,10 @@
+import 'package:evently_fluttter/core/extensions.dart';
+import 'package:evently_fluttter/core/firebase_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../core/extensions.dart';
-import '../../core/firebase_functions.dart';
+
 import 'login_screen.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   static const String routeName = "Register";
@@ -20,6 +22,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   var nameController = TextEditingController();
   var passwordController = TextEditingController();
   var emailController = TextEditingController();
+  var nidController = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
 
@@ -35,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 60),
-                Image.asset("assets/images/evently_logo.png", height: 70),
+                Image.asset("assets/images/Evently.png", height: 70),
                 const SizedBox(height: 40),
                 Text(
                   "Create your account",
@@ -98,7 +101,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ),
                     filled: true,
                     fillColor: Colors.white,
-                    prefixIcon: Image.asset("assets/images/email_ic.png"),
+                    prefixIcon: Image.asset("assets/images/sms (1).png"),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  keyboardType: TextInputType.number,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please enter your NID";
+                    }
+
+                    return null;
+                  },
+                  controller: nidController,
+                  decoration: InputDecoration(
+                    labelText: "Enter your NID",
+                    labelStyle: GoogleFonts.poppins(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    prefixIcon: Image.asset("assets/images/sms (1).png"),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -110,13 +138,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     if (value == null || value.isEmpty) {
                       return "Please enter your Password";
                     }
-                    final bool passwordValid = RegExp(
-                      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
-                    ).hasMatch(value);
-
-                    if (!passwordValid) {
-                      return "Please enter a valid password";
-                    }
+                    // final bool passwordValid = RegExp(
+                    //   r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$',
+                    // ).hasMatch(value);
+                    //
+                    // if (!passwordValid) {
+                    //   return "Please enter a valid password";
+                    // }
                     return null;
                   },
                   controller: passwordController,
@@ -129,7 +157,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: Colors.grey,
                     ),
                     fillColor: Colors.white,
-                    prefixIcon: Image.asset("assets/images/lock_ic.png"),
+                    prefixIcon: Image.asset("assets/images/lock (1).png"),
                     suffixIcon: IconButton(
                       icon: Icon(
                         isPasswordVisible
@@ -169,7 +197,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       color: Colors.grey,
                     ),
                     fillColor: Colors.white,
-                    prefixIcon: Image.asset("assets/images/lock_ic.png"),
+                    prefixIcon: Image.asset("assets/images/lock (1).png"),
                     suffixIcon: IconButton(
                       icon: Icon(
                         isConfirmPasswordVisible
@@ -196,6 +224,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         emailController.text,
                         passwordController.text,
                         nameController.text,
+                        nidController.text,
                         onSuccess: () {
                           Navigator.pushReplacementNamed(
                             context,
@@ -266,7 +295,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: 16),
                 ElevatedButton.icon(
                   onPressed: () {},
-                  icon: Image.asset("assets/images/google.png", height: 24),
+                  icon: Image.asset("assets/images/googel.png", height: 24),
                   label: const Text("Sign up with Google"),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
