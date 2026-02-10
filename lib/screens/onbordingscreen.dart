@@ -1,216 +1,226 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently_fluttter/core/cache_helper.dart';
 import 'package:evently_fluttter/providers/theme_provider.dart';
 import 'package:evently_fluttter/screens/auth/login_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:provider/provider.dart';
 
-
-
-
-class Onbordingscreen extends StatelessWidget {
+class Onbordingscreen extends StatefulWidget {
   static const String routeName = "Introductionscreen";
-  Onbordingscreen({super.key});
+
+  const Onbordingscreen({super.key});
+
+  @override
+  State<Onbordingscreen> createState() => _OnbordingscreenState();
+}
+
+class _OnbordingscreenState extends State<Onbordingscreen> {
+  // مفتاح للتحكم في التنقل بين الصفحات
+  final introKey = GlobalKey<IntroductionScreenState>();
+
   @override
   Widget build(BuildContext context) {
     var provider = Provider.of<ThemeProvider>(context);
-    // تعريف اللون الأساسي للتطبيق عشان نستخدمه في كل مكان (نفس الأزرق اللي في الصور)
-    Color primaryBlue = const Color(0xFF5669FF); // أو درجة الأزرق بتاعتك
 
-    late var listPagesViewModel = [
-      // الصفحة الأولى: Effortless Event Planning (صورة المكتب)
-      PageViewModel(
-        titleWidget: Text(
-          "onboardTitle1".tr(),
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: provider.themeMode == ThemeMode.light ? Colors.black : Colors.white
-          ),
-        ),
-        bodyWidget: Text(
-          "onboardText1".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(color: provider.themeMode == ThemeMode.light ? Colors.black54 : Colors.grey),
-        ),
-        image: Image.asset(
-          provider.themeMode == ThemeMode.light
-              ? "assets/images/hot-trending.png"
-              : "assets/images/hot-trending .dark.png",
-          height: 300, // تحجيم الصورة عشان متضربش
-        ),
-        decoration: const PageDecoration(
-          imagePadding: EdgeInsets.only(top: 40),
-        ),
-      ),
 
-      // الصفحة الثانية: Connect with Friends (صورة الـ Social)
-      PageViewModel(
-        titleWidget: Text(
-          "onboardTitle2".tr(),
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: provider.themeMode == ThemeMode.light ? Colors.black : Colors.white
-          ),
-        ),
-        bodyWidget: Text(
-          "onboardText2".tr(),
-          textAlign: TextAlign.center,
-          style: TextStyle(color: provider.themeMode == ThemeMode.light ? Colors.black54 : Colors.grey),
-        ),
-        image: Image.asset(
-          provider.themeMode == ThemeMode.light
-              ? "assets/images/being-creative2.png"
-              : "assets/images/being-creative2.dark.png",
-          height: 300,
-        ),
-        decoration: const PageDecoration(
-          imagePadding: EdgeInsets.only(top: 40),
-        ),
-      ),
+    Color primaryBlue = const Color(0xFF02369C);
+    Color activeDotColor = const Color(0xFF02369C);
+    Color inactiveDotColor = Colors.grey;
+    Color textColor = provider.themeMode == ThemeMode.light ? const Color(0xFF1C1C1C) : Colors.white;
+    Color subTextColor = provider.themeMode == ThemeMode.light ? const Color(0xFF5F5F5F) : Colors.grey;
+    Color scaffoldBg = provider.themeMode == ThemeMode.light ? Colors.white : const Color(0xFF121212);
 
-      // الصفحة الثالثة: Personalize (فيها الشغل كله - اللغة والثيم)
-      PageViewModel(
-        titleWidget: Text(
-          "onboardTitle3".tr(),
-          style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: provider.themeMode == ThemeMode.light ? Colors.black : Colors.white
-          ),
-        ),
-        // هنا عملنا Body مخصص عشان نحط فيه زراير اللغة والثيم
-        bodyWidget: Column(
+
+    PageViewModel createPage({
+      required String title,
+      required String body,
+      required String imagePath,
+    }) {
+      return PageViewModel(
+        titleWidget: Column(
           children: [
             Text(
-              "onboardText3".tr(),
-              textAlign: TextAlign.center,
-              style: TextStyle(color: provider.themeMode == ThemeMode.light ? Colors.black54 : Colors.grey),
-            ),
-            const SizedBox(height: 20),
-
-            // --- قسم اللغة ---
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Language".tr(), style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.w500)),
-                // مثال بسيط لزرار التغيير (ممكن تستخدم Dropdown أو Toggle)
-                ToggleButtons(
-                  isSelected: [context.locale.languageCode == 'en', context.locale.languageCode == 'ar'],
-                  onPressed: (int index) {
-                    // منطق تغيير اللغة
-                    if (index == 0) context.setLocale(const Locale('en'));
-                    else context.setLocale(const Locale('ar'));
-                  },
-                  borderRadius: BorderRadius.circular(8),
-                  selectedColor: Colors.white,
-                  fillColor: primaryBlue,
-                  children: const [
-                    Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Text("EN")),
-                    Padding(padding: EdgeInsets.symmetric(horizontal: 12), child: Text("AR")),
-                  ],
-                ),
-              ],
+              title,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: textColor,
+              ),
             ),
             const SizedBox(height: 16),
-
-            // --- قسم الثيم ---
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Theme", style: TextStyle(color: primaryBlue, fontSize: 18, fontWeight: FontWeight.w500)),
-                ToggleButtons(
-                  isSelected: [provider.themeMode == ThemeMode.light, provider.themeMode == ThemeMode.dark],
-                  onPressed: (int index) {
-
-                    provider.changeTheme(index == 0 ? ThemeMode.light : ThemeMode.dark);
-                  },
-                  borderRadius: BorderRadius.circular(8),
-                  selectedColor: Colors.white,
-                  fillColor: primaryBlue,
-                  children: const [
-                    Icon(Icons.wb_sunny_outlined),
-                    Icon(Icons.nightlight_round),
-                  ],
-                ),
-              ],
-            ),
           ],
         ),
-        image: Image.asset(
-          provider.themeMode == ThemeMode.light
-              ? "assets/images/being-creative3.png"
-              : "assets/images/being-creative.dark3.png",
-          height: 300,
+        bodyWidget: Text(
+          body,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontSize: 16,
+            height: 1.5,
+            color: subTextColor,
+          ),
         ),
-        decoration: const PageDecoration(
-          imagePadding: EdgeInsets.only(top: 40),
+        image: Align(
+          alignment: Alignment.bottomCenter,
+          child: Image.asset(
+            imagePath,
+            height: 300,
+            fit: BoxFit.contain,
+          ),
         ),
+        decoration: PageDecoration(
+          pageColor: scaffoldBg,
+          imagePadding: const EdgeInsets.only(top: 20, bottom: 20),
+          contentMargin: const EdgeInsets.symmetric(horizontal: 24),
+          titlePadding: const EdgeInsets.only(left: 24, right: 24, top: 0),
+          bodyPadding: const EdgeInsets.only(left: 24, right: 24),
+          bodyAlignment: Alignment.topLeft,
+          imageAlignment: Alignment.bottomCenter,
+        ),
+      );
+    }
+
+    var pages = [
+      createPage(
+        title: "onboardTitle1".tr(),
+        body: "onboardText1".tr(),
+
+        imagePath:provider.themeMode == ThemeMode.light
+
+            ? "assets/images/hot-trending.png"
+
+            : "assets/images/hot-trending.dark.png",
       ),
+      createPage(
+        title: "onboardTitle2".tr(),
+        body: "onboardText2".tr(),
+        imagePath: provider.themeMode == ThemeMode.light
+            ? "assets/images/being-creative2.png" 
+            : "assets/images/being-creative2.dark.png",
+      ),
+      createPage(
+        title: "onboardTitle3".tr(),
+        body: "onboardText3".tr(),
+        imagePath: provider.themeMode == ThemeMode.light
+            ? "assets/images/being-creative3.png"
+            : "assets/images/being-creative.dark3.png",
+      ),
+
     ];
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 30.0), // مسافة عشان الـ Header ميكونش لازق فوق
-        child: IntroductionScreen(
-          globalBackgroundColor: provider.themeMode == ThemeMode.light ? Colors.white : const Color(0xFF101127),
+      backgroundColor: scaffoldBg,
+      body: SafeArea(
+        child: Column(
+          children: [
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+
+                  InkWell(
+                    onTap: () {
+                     Navigator.pop(context);
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Icon(Icons.arrow_back_ios_new, size: 20, color: textColor),
+                    ),
+                  ),
 
 
-          // اللوجو ثابت فوق
-          globalHeader: Align(
-            alignment: Alignment.topCenter,
-            child: SafeArea(
-              child: Image.asset("assets/images/Evently.png", height: 50),
+               Center(
+
+                   child: Image.asset("assets/images/image logo.png")),
+
+                  InkWell(
+                    onTap: () {
+                      Navigator.pushReplacementNamed(
+                          context, LoginScreen.routeName);
+
+                    },
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: provider.themeMode == ThemeMode.light ? Colors.grey.shade100 : Colors.grey.shade800,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(
+                        "Skip",
+                        style: TextStyle(
+                          color: primaryBlue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
 
-          pages: listPagesViewModel,
+            Expanded(
+              child: IntroductionScreen(
+                key: introKey,
+                globalBackgroundColor: scaffoldBg,
+                pages: pages,
+                showSkipButton: false,
+                showNextButton: false,
+                showDoneButton: false,
+                showBackButton: false,
 
-          // --- تظبيط الزراير السفلية ---
-          showSkipButton: true,
-          skip: Text("skipButton".tr(), style: TextStyle(color: primaryBlue, fontWeight: FontWeight.bold)),
+                globalFooter: Container(
+                  width: double.infinity,
+                  margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                  height: 56,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: primaryBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 0,
+                    ),
+                    onPressed: () {
 
-          showNextButton: true,
-          next: Icon(Icons.arrow_forward, color: primaryBlue),
+                      Navigator.pushNamed(context, LoginScreen.routeName);
+                    },
+                    child: const Text(
+                      "Next",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
 
-          showDoneButton: true,
-          done: Text("Let's Start", style: TextStyle(fontWeight: FontWeight.w600, color: primaryBlue)),
+                dotsDecorator: DotsDecorator(
+                  size: const Size.square(10.0),
+                  activeSize: const Size(26.0, 10.0),
+                  activeColor: activeDotColor,
+                  color: inactiveDotColor,
+                  spacing: const EdgeInsets.symmetric(horizontal: 4.0),
+                  activeShape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
+                ),
 
-          showBackButton: true,
-          back: Icon(Icons.arrow_back, color: primaryBlue),
-
-          // --- تظبيط النقاط (Dots) ---
-          dotsDecorator: DotsDecorator(
-            size: const Size.square(10.0),
-            activeSize: const Size(20.0, 10.0),
-            activeColor: primaryBlue, // اللون الأزرق النشط
-            color: Colors.grey, // اللون الرمادي لغير النشط
-            spacing: const EdgeInsets.symmetric(horizontal: 3.0),
-            activeShape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(25.0),
+                controlsPadding: const EdgeInsets.only(bottom: 16),
+              ),
             ),
-          ),
-
-          onSkip: ()  {
-
-            Navigator.pushReplacementNamed(context, LoginScreen.routeName);
-          },
-          onDone: ()  {
-
-            Navigator.pushNamed(
-                context,
-                LoginScreen.routeName
-
-            );
-          },
+          ],
         ),
       ),
     );
-
   }
-
 }
-

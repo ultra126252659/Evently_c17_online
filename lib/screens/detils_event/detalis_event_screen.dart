@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_fluttter/edit/edit_Screen.dart';
 import 'package:evently_fluttter/models/task_model.dart';
 import 'package:evently_fluttter/providers/home_page_provider.dart';
 import 'package:evently_fluttter/providers/theme_provider.dart';
@@ -18,7 +19,7 @@ class DetailsEventScreen extends StatelessWidget {
     final model = ModalRoute.of(context)!.settings.arguments as TaskModel;
     DateFormat formatDate = DateFormat("dd MMM");
 
-    // متغيرات لتسهيل التعامل مع الألوان في اللايت والدارك
+
     bool isLight = themeProvider.themeMode == ThemeMode.light;
     Color cardColor = isLight ? Colors.white : Theme.of(context).colorScheme.surface;
     Color textColor = isLight ? Colors.black : Colors.white;
@@ -35,13 +36,12 @@ class DetailsEventScreen extends StatelessWidget {
             elevation: 0,
             leading: IconButton(
                 iconSize: 30,
-                // أيقونة الرجوع لونها أزرق زي التصميم
                 color: Theme.of(context).colorScheme.primary,
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                icon: const Icon(Icons.arrow_back) // أو الصورة بتاعتك لو عايز
-              // icon: Image.asset("assets/images/back_ic.png", width: 30, height: 30, fit: BoxFit.cover,),
+                icon: const Icon(Icons.arrow_back)
+
             ),
             centerTitle: true,
             title: Text(
@@ -54,7 +54,7 @@ class DetailsEventScreen extends StatelessWidget {
             actions: [
               IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, AddEventScreen.routeName, arguments: model);
+                  Navigator.pushNamed(context, EditScreen.routeName, arguments: model);
                 },
                 icon: Icon(Icons.edit, color: Theme.of(context).colorScheme.primary),
               ),
@@ -139,11 +139,8 @@ class DetailsEventScreen extends StatelessWidget {
                                   fontWeight: FontWeight.bold
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              "12:00 PM",
-                              style: TextStyle(color: subTextColor, fontSize: 14),
-                            ),
+
+
                           ],
                         ),
                       ),
@@ -151,14 +148,12 @@ class DetailsEventScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-
-
                 Text(
                   "Description".tr(),
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: textColor, // أسود
+                    color: textColor,
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -167,7 +162,7 @@ class DetailsEventScreen extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: cardColor, // أبيض في اللايت
+                      color: cardColor,
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(color: isLight ? Colors.transparent : Colors.white24),
                     ),

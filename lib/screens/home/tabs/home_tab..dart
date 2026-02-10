@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_fluttter/core/extensions.dart';
+import 'package:evently_fluttter/edit/edit_Screen.dart';
 import 'package:evently_fluttter/providers/home_page_provider.dart';
 import 'package:evently_fluttter/providers/theme_provider.dart';
 import 'package:evently_fluttter/screens/detils_event/detalis_event_screen.dart';
@@ -15,7 +16,7 @@ class HomeTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final primaryColor = Theme.of(context).colorScheme.primary;
- var provide = Provider.of<ThemeProvider>(context); // هذا السطر غير مستخدم ويمكن حذفه لتنظيف الكود
+ var provide = Provider.of<ThemeProvider>(context);
 
     return MultiProvider(
       providers: [
@@ -64,7 +65,7 @@ class HomeTab extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
 
-                // قائمة المهام
+
                 Expanded(
                   child: provider.taskss.isEmpty
                       ? Center(
@@ -95,7 +96,7 @@ class HomeTab extends StatelessWidget {
                         children: [
                           SlidableAction(
                             onPressed: (context) {
-                              // Navigator.pushNamed(context, AddEventScreen.routeName, arguments: provider.taskss[index]);
+                         Navigator.pushNamed(context, EditScreen.routeName, arguments: provider.taskss[index]);
                             },
                             backgroundColor: Colors.transparent,
                             foregroundColor: primaryColor,
@@ -113,12 +114,10 @@ class HomeTab extends StatelessWidget {
                         width: double.infinity,
                         child: Stack(
                           children: [
-                            // ==========================================
-                            // 1. الصورة الخلفية (تم تغليفها بـ GestureDetector)
-                            // ==========================================
+
                             GestureDetector(
                               onTap: () {
-                                // الانتقال لشاشة التفاصيل وتمرير البيانات
+
                                 Navigator.pushNamed(
                                   context,
                                   DetailsEventScreen.routeName, // تأكد أن هذا الاسم مطابق لما في main.dart
@@ -138,8 +137,6 @@ class HomeTab extends StatelessWidget {
                               ),
                             ),
 
-                            // 2. المحتوى (التاريخ والعنوان) - كما هو لم يتغير
-                            // بما أنه يأتي بعد الصورة في الـ Stack، فأزراره ستعمل بشكل طبيعي فوق الصورة
                             Column(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +165,7 @@ class HomeTab extends StatelessWidget {
                                         provider.taskss[index].title,
                                         style: Theme.of(context).textTheme.displayMedium,
                                       ),
-                                      // الـ InkWell هنا سيعمل بشكل منفصل للإعجاب
+
                                       InkWell(
                                         onTap: () {
                                           var task = provider.taskss[index];

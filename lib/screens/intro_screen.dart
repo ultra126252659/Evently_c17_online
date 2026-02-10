@@ -5,7 +5,8 @@ import 'package:evently_fluttter/screens/onbordingscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+//    ? Theme.of(context).colorScheme.onSecondary
+//                                   : Theme.of(context).colorScheme.primary,
 class IntroScreen extends StatefulWidget {
   static const String routeName = "IntroScreen";
 
@@ -23,7 +24,7 @@ class _IntroScreenState extends State<IntroScreen> {
     var primaryColor = context.theme().colorScheme.primary;
 
     return Scaffold(
-      appBar: AppBar(title: Image.asset("assets/images/Evently.png")),
+      appBar: AppBar(title: Image.asset("assets/images/image logo.png")),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -39,149 +40,145 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
             Text("onboardTitle".tr(), style: context.bodyLarge()),
             Text("onboardText".tr(), style: context.displayMedium()),
-
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "lung".tr(),
+                  "language".tr(),
                   style: context.theme().textTheme.displaySmall,
                 ),
-                Container(
-                  padding: const EdgeInsets.all(2), // مسافة صغيرة داخل الإطار
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(color: primaryColor, width: 2),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // English Button
-                      InkWell(
-                        onTap: () {
-                          context.setLocale(Locale("en", "US"));
-                        },
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: context.locale == Locale("en", "US")
-                                ? primaryColor
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Text(
-                            "English",
-                            style: context.theme().textTheme.bodyMedium?.copyWith(
-                              color: context.locale == Locale("en", "US")
-                                  ? Theme.of(context).colorScheme.onSecondary
-                                  : Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                Row(
+                  children: [
+                    // English
+                    InkWell(
+                      onTap: () {
+                        context.setLocale(const Locale("en", "US"));
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        width: 80,
+                        height: 36,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: context.locale.languageCode == "en"
+                              ? primaryColor
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          "English",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: context.locale.languageCode == "en"
+                                ? Colors.white
+                                : primaryColor,
                           ),
                         ),
                       ),
+                    ),
+                    const SizedBox(width: 8),
 
-                      InkWell(
-                        onTap: () {
-                          context.setLocale(Locale("ar", "EG"));
-                        },
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: context.locale == Locale("ar", "EG")
-                         ?   Theme.of(context).colorScheme.onSecondary
-                         : Theme.of(context).colorScheme.primary,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: Text(
-                            "Arabic",
-                            style: context.theme().textTheme.bodyMedium?.copyWith(
-                              color: context.locale == Locale("ar", "EG")
-                                  ? Theme.of(context).colorScheme.onSecondary
-                                  : Theme.of(context).colorScheme.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+                    // Arabic
+                    InkWell(
+                      onTap: () {
+                        context.setLocale(const Locale("ar", "EG"));
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        width: 80,
+                        height: 36,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: context.locale.languageCode == "ar"
+                              ? primaryColor
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Text(
+                          "Arabic",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: context.locale.languageCode == "ar"
+                                ? Colors.white
+                                : primaryColor,
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("theme".tr(), style: context.displaySmall()),
-                Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
-                    border: Border.all(
-                      color: primaryColor,
-                      width: 2,
+                Text(
+                  "theme".tr(),
+                  style: context.theme().textTheme.displaySmall,
+                ),
+                Row(
+                  children: [
+                    // Light
+                    InkWell(
+                      onTap: () {
+                        provider.changeTheme(ThemeMode.light);
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        width: 44,
+                        height: 36,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: provider.themeMode == ThemeMode.light
+                              ? primaryColor
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.light_mode,
+                          size: 20,
+                          color: provider.themeMode == ThemeMode.light
+                              ? Colors.white
+                              : primaryColor,
+                        ),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Light Mode (Sun)
-                      InkWell(
-                        onTap: () {
-                          provider.changeTheme(ThemeMode.light);
-                        },
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 6, horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: provider.themeMode == ThemeMode.light
-                                ? primaryColor
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: ImageIcon(
-                            const AssetImage("assets/images/sun.png"),
-                            size: 30,
-                            color: provider.themeMode == ThemeMode.light
-                                ? Theme.of(context).colorScheme.onSecondary
-                                : Theme.of(context).colorScheme.primary,
-                          ),
+                    const SizedBox(width: 8),
+
+                    // Dark
+                    InkWell(
+                      onTap: () {
+                        provider.changeTheme(ThemeMode.dark);
+                      },
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        width: 44,
+                        height: 36,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: provider.themeMode == ThemeMode.dark
+                              ? primaryColor
+                              : Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          Icons.dark_mode,
+                          size: 20,
+                          color: provider.themeMode == ThemeMode.dark
+                              ? Colors.white
+                              : primaryColor,
                         ),
                       ),
-                      // Dark Mode (Moon)
-                      InkWell(
-                        onTap: () {
-                          provider.changeTheme(ThemeMode.dark);
-                        },
-                        borderRadius: BorderRadius.circular(30),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 6, horizontal: 16),
-                          decoration: BoxDecoration(
-                            color: provider.themeMode == ThemeMode.dark
-                                ? primaryColor
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          child: ImageIcon(
-                            const AssetImage("assets/images/moon.png"),
-                            size: 30,
-                            color: provider.themeMode == ThemeMode.dark
-                                ? Theme.of(context).colorScheme.onSecondary
-                                :Theme.of(context).colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ],
             ),
+
+
+
 
             SizedBox(
               width: double.infinity,

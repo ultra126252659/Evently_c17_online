@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_fluttter/edit/edit_Screen.dart';
 import 'package:evently_fluttter/providers/auth_provider.dart';
 import 'package:evently_fluttter/providers/theme_provider.dart';
 import 'package:evently_fluttter/screens/add_event/add_event_screen.dart';
@@ -87,6 +88,7 @@ class MyApp extends StatelessWidget {
         ResetPasswordScreen.routeName: (c) =>  ResetPasswordScreen(),
         AddEventScreen.routeName: (c) => AddEventScreen(),
         DetailsEventScreen.routeName: (c) => DetailsEventScreen(),
+        EditScreen.routeName: (c) => EditScreen(),
       },
     );
   }
